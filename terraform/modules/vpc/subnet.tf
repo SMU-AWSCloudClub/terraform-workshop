@@ -9,9 +9,7 @@ resource "aws_subnet" "public_subnet_1" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                                              = "${var.prefix}-public-subnet-1"
-    "kubernetes.io/role/elb"                          = 1
-    "kubernetes.io/cluster/${var.prefix}-eks-cluster" = "owned"
+    Name = "${var.prefix}-public-subnet-1"
   }
 }
 
@@ -22,9 +20,7 @@ resource "aws_subnet" "public_subnet_2" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name                                              = "${var.prefix}-public-subnet-2"
-    "kubernetes.io/role/elb"                          = 1
-    "kubernetes.io/cluster/${var.prefix}-eks-cluster" = "owned"
+    Name = "${var.prefix}-public-subnet-2"
   }
 }
 
@@ -35,9 +31,7 @@ resource "aws_subnet" "private_subnet_1" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name                                              = "${var.prefix}-private-subnet-1"
-    "kubernetes.io/role/elb"                          = 1
-    "kubernetes.io/cluster/${var.prefix}-eks-cluster" = "owned"
+    Name = "${var.prefix}-private-subnet-1"
   }
 }
 
@@ -48,8 +42,18 @@ resource "aws_subnet" "private_subnet_2" {
   map_public_ip_on_launch = false
 
   tags = {
-    Name                                              = "${var.prefix}-private-subnet-2"
-    "kubernetes.io/role/elb"                          = 1
-    "kubernetes.io/cluster/${var.prefix}-eks-cluster" = "owned"
+    Name = "${var.prefix}-private-subnet-2"
+  }
+}
+
+resource "aws_db_subnet_group" "db_subnet_group" {
+  name = "db-subnet-group"
+  subnet_ids = [
+    aws_subnet.private_subnet_1.id,
+    aws_subnet.private_subnet_2.id
+  ]
+
+  tags = {
+    Name = "db-subnet-group"
   }
 }
