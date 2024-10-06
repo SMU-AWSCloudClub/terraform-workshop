@@ -53,8 +53,8 @@ resource "aws_security_group" "ecs_tasks_sg" {
 resource "aws_vpc_security_group_ingress_rule" "allow_traffic_from_lb" {
   security_group_id            = aws_security_group.ecs_tasks_sg.id
   referenced_security_group_id = aws_security_group.lb_sg.id
-  from_port                    = 80
-  to_port                      = 80
+  from_port                    = 3000
+  to_port                      = 3000
   ip_protocol                  = "tcp"
 }
 
