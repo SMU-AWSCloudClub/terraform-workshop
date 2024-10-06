@@ -6,17 +6,22 @@ data "template_file" "todo_app" {
   template = file("./templates/ecs/todo_app.json.tpl")
 
   vars = {
-    app_image      = var.app_image
-    app_port       = var.app_port
-    fargate_cpu    = var.fargate_cpu
-    fargate_memory = var.fargate_memory
-    aws_region     = var.aws_region
+    app_image         = var.app_image
+    app_port          = var.app_port
+    fargate_cpu       = var.fargate_cpu
+    fargate_memory    = var.fargate_memory
+    aws_region        = var.aws_region
+    DATABASE_HOST     = var.db_endpoint
+    DATABASE_PORT     = 3306
+    DATABASE_NAME     = "demodb"
+    DATABASE_USER     = "root"
+    DATABASE_PASSWORD = "password" # In production, you should use secret manager to store the password
   }
 }
 
 resource "aws_ecs_task_definition" "app" {
   family                   = "${var.prefix}-app-task"
-  execution_role_arn       = aws_iam_role.ecs_role.arn
+  execution_role_arn       = aws_iam_role.ecs_tasks_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -40,7 +45,7 @@ resource "aws_ecs_service" "main" {
 
   load_balancer {
     target_group_arn = aws_alb_target_group.app.id
-    container_name   = "backend"
+    container_name   = "todo-app" # Must match with the container name defined in template
     container_port   = var.app_port
   }
 

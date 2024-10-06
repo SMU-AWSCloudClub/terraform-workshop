@@ -66,3 +66,8 @@ variable "fargate_memory" {
   description = "Fargate instance memory to provision (in MiB)"
   default     = "2048"
 }
+
+variable "db_endpoint" {
+  type        = string
+  description = "Endpoint of your writer instance"
+}
