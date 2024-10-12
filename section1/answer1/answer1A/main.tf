@@ -7,6 +7,6 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids      = var.tf_workshop_ex1_vpc_sg_id
 
   tags = {
-    Name = "[student]-Ex1-App-Server-Instance"
+    Name = "[StudentName]-Ex1-App-Server-Instance"
   }
 }
