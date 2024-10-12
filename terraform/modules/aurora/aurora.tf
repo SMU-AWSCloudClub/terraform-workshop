@@ -1,5 +1,5 @@
 resource "aws_rds_cluster" "aurora_cluster" {
-  cluster_identifier     = "${var.prefix}-example"
+  cluster_identifier     = "${var.prefix}-example-cluster"
   engine                 = "aurora-mysql"
   engine_mode            = "provisioned"             # only v1 is serverless, serverless_v2 must be `provisioned`, v2 is not true serverless 
   engine_version         = "8.0.mysql_aurora.3.05.2" # compatible with mysql8.0
@@ -18,6 +18,7 @@ resource "aws_rds_cluster" "aurora_cluster" {
 }
 
 resource "aws_rds_cluster_instance" "aurora_instance" {
+  identifier = "${var.prefix}-example-instance" 
   cluster_identifier = aws_rds_cluster.aurora_cluster.id
   instance_class     = "db.serverless"
   engine             = aws_rds_cluster.aurora_cluster.engine
