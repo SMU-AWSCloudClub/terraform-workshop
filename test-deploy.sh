@@ -19,10 +19,6 @@ mkdir -p "${PARENT_FOLDER}"
 # Directory containing your Terraform configurations
 TERRAFORM_CONFIG_DIR="./section3/answer3"
 
-# This prevents Terraform from downloading plugins each time
-export TF_PLUGIN_CACHE_DIR="$HOME/.terraform.d/plugin-cache"
-mkdir -p "$TF_PLUGIN_CACHE_DIR"
-
 # Array to hold PIDs
 PIDS=()
 
