@@ -1,6 +1,6 @@
-variable "prefix" {
+variable "student_number" {
   type        = string
-  description = "Prefix of your ecs cluster name"
+  description = "Student ID"
 }
 
 variable "public_subnet_ids" {

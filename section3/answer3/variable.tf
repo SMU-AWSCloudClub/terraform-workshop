@@ -25,6 +25,6 @@ variable "tf_workshop_ex3_db_password" {
 }
 
 variable "student_number" {
-  type = string
+  type        = string
   description = "Student ID"
 }

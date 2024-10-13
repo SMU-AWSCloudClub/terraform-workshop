@@ -1,9 +1,9 @@
 resource "aws_ecs_cluster" "nestjs_main" {
-  name = "${var.prefix}-nestjs-cluster"
+  name = "${var.student_number}-nestjs-cluster"
 }
 
 resource "aws_ecs_task_definition" "nestjs_app" {
-  family                   = "${var.prefix}-nestjs-app-task"
+  family                   = "${var.student_number}-nestjs-app-task"
   execution_role_arn       = aws_iam_role.ecs_tasks_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -28,7 +28,7 @@ resource "aws_ecs_task_definition" "nestjs_app" {
 }
 
 resource "aws_ecs_service" "nestjs_main" {
-  name            = "${var.prefix}-nestjs-service"
+  name            = "${var.student_number}-nestjs-service"
   cluster         = aws_ecs_cluster.nestjs_main.id
   task_definition = aws_ecs_task_definition.nestjs_app.arn
   desired_count   = var.app_count
@@ -51,11 +51,11 @@ resource "aws_ecs_service" "nestjs_main" {
 
 
 resource "aws_ecs_cluster" "springboot_main" {
-  name = "${var.prefix}-springboot-cluster"
+  name = "${var.student_number}-springboot-cluster"
 }
 
 resource "aws_ecs_task_definition" "springboot_app" {
-  family                   = "${var.prefix}-springboot-app-task"
+  family                   = "${var.student_number}-springboot-app-task"
   execution_role_arn       = aws_iam_role.ecs_tasks_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -80,7 +80,7 @@ resource "aws_ecs_task_definition" "springboot_app" {
 }
 
 resource "aws_ecs_service" "springboot_main" {
-  name            = "${var.prefix}-springboot-service"
+  name            = "${var.student_number}-springboot-service"
   cluster         = aws_ecs_cluster.springboot_main.id
   task_definition = aws_ecs_task_definition.springboot_app.arn
   desired_count   = var.app_count

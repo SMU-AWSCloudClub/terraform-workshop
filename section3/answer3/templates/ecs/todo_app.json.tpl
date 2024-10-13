@@ -17,7 +17,7 @@
         "options": {
           "awslogs-group": "${log_group}",
           "awslogs-region": "${aws_region}",
-          "awslogs-stream-prefix": "ecs"
+          "awslogs-stream-student-number": "ecs"
         }
     },
     "portMappings": [
