@@ -34,8 +34,6 @@ resource "aws_alb_listener" "nestjs_front_end" {
   }
 }
 
-
-
 resource "aws_alb" "springboot_main" {
   name            = "${var.prefix}-springboot-lb"
   subnets         = var.public_subnet_ids
