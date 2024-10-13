@@ -98,7 +98,7 @@ resource "aws_ecs_task_definition" "springboot_app" {
 
     # The following variables are used to pass environment variables to the container
     aws_region        = var.aws_region
-    log_group         = aws_cloudwatch_log_group.nestjs_log_group.name
+    log_group         = aws_cloudwatch_log_group.springboot_log_group.name
     student_number    = var.student_number
     DATABASE_HOST     = var.springboot_db_endpoint
     DATABASE_PORT     = 3306
