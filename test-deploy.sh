@@ -19,12 +19,34 @@ mkdir -p "${PARENT_FOLDER}"
 # Directory containing your Terraform configurations
 TERRAFORM_CONFIG_DIR="./section3/answer3"
 
+# Initialize Terraform in the configuration directory without the backend
+cd "${TERRAFORM_CONFIG_DIR}"
+terraform init -backend=false
+cd -
+
+# Maximum number of parallel jobs
+# This is very important to prevent overwhelming your computer which may cause the tf script to fail
+MAX_JOBS=10
+
+# Function to check and wait if the number of background jobs reaches MAX_JOBS
+function wait_for_jobs {
+    while [ "$(jobs -p | wc -l)" -ge "$MAX_JOBS" ]; do
+        # Wait for any job to finish
+        sleep 1
+        # Clean up completed jobs
+        jobs > /dev/null
+    done
+}
+
 # Array to hold PIDs
 PIDS=()
 
-# Loop to apply terraform-managed resources 3 times in parallel
-for i in {1..3}
+# Loop to apply terraform-managed resources in parallel
+for i in {1..30}
 do
+    # Call the function to check job limits
+    wait_for_jobs
+
     (
     # Each iteration runs in a subshell
 
@@ -95,7 +117,7 @@ done
 # Wait for all background processes to finish
 FAIL=0
 for pid in "${PIDS[@]}"; do
-    wait $pid || let "FAIL+=1"
+    wait $pid || ((FAIL++))
 done
 
 if [ "$FAIL" -ne 0 ]; then
