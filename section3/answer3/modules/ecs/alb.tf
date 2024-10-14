@@ -1,11 +1,11 @@
 resource "aws_alb" "nestjs_main" {
-  name            = "${var.student_number}-nestjs-lb"
+  name            = "${var.student_id}-nestjs-lb"
   subnets         = var.public_subnet_ids
   security_groups = var.lb_sg_ids
 }
 
 resource "aws_alb_target_group" "nestjs_app" {
-  name        = "${var.student_number}-nestjs-tg"
+  name        = "${var.student_id}-nestjs-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
@@ -35,13 +35,13 @@ resource "aws_alb_listener" "nestjs_front_end" {
 }
 
 resource "aws_alb" "springboot_main" {
-  name            = "${var.student_number}-springboot-lb"
+  name            = "${var.student_id}-springboot-lb"
   subnets         = var.public_subnet_ids
   security_groups = var.lb_sg_ids
 }
 
 resource "aws_alb_target_group" "springboot_app" {
-  name        = "${var.student_number}-springboot-tg"
+  name        = "${var.student_id}-springboot-tg"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = var.vpc_id

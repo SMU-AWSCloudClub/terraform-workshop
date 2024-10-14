@@ -32,7 +32,7 @@ resource "aws_db_instance" "db_instance" {
 
 # This deploys the rds Subnet Group
 resource "aws_db_subnet_group" "db_subnet_group" {
-  name = "${var.student_number}-db-subnet-group"
+  name = "${var.student_id}-db-subnet-group"
   subnet_ids = [
     var.tf_workshop_ex3_private_subnet_1_id,
     var.tf_workshop_ex3_private_subnet_2_id

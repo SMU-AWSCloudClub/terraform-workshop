@@ -1,4 +1,4 @@
-variable "student_number" {
+variable "student_id" {
   type        = string
   description = "Student ID"
 }
