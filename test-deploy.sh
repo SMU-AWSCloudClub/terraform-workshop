@@ -54,7 +54,7 @@ do
     AWS_BUCKET_KEY_NAME="statefile_${i}.tfstate"
 
     # Set the student_number variable
-    export TF_VAR_student_number="student-${i}"
+    export TF_VAR_student_id="student-${i}"
 
     # Create a unique working directory within PARENT_FOLDER
     WORK_DIR="${PARENT_FOLDER}/workdir_${i}"
@@ -100,7 +100,7 @@ do
     fi
 
     # Optional: Unset the student_number variable
-    unset TF_VAR_student_number
+    unset TF_VAR_student_id
 
     echo "Completed Terraform run for student number ${i}."
 

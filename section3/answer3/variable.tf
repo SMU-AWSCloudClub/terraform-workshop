@@ -27,5 +27,5 @@ variable "tf_workshop_ex3_db_password" {
 variable "student_id" {
   type        = string
   description = "Student ID"
-  default     = "student-1"
+  default     = "student-420"
 }

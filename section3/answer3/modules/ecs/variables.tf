@@ -45,7 +45,7 @@ variable "springboot_app_image" {
 variable "app_count" {
   type        = number
   description = "Number of docker containers to run"
-  default     = 3
+  default     = 2
 }
 
 variable "app_port" {
