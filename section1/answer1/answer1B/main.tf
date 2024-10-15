@@ -5,10 +5,10 @@ resource "aws_instance" "app_server" {
   instance_type = "t3.small"              # EC2 Instance Type
 
   associate_public_ip_address = true
-  subnet_id                   = var.tf_workshop_ex1_subnet_id[0]
-  vpc_security_group_ids      = var.tf_workshop_ex1_vpc_sg_id
+  subnet_id                   = var.tf_workshop_ex1_subnet_id
+  vpc_security_group_ids      = [var.tf_workshop_ex1_vpc_sg_id]
 
   tags = {
-    Name = "[StudentName]-Ex1-App-Server-Instance"
+    Name = "${var.student_id}-Ex1-EC2-Instance"
   }
 }
