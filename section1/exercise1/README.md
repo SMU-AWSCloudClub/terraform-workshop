@@ -6,7 +6,7 @@ Deploy an EC2 instance onto AWS with the following requirements:
 - AMI: Amazon Linux 2 (ami-0ad522a4a529e7aa8)
 - Subnet: Terraform workshop ex1 subnet [given]
 - Security group: Terraform workshop ex1 security group [given]
-- Tag: Name = [StudentName]-Ex1-App-Server-Instance
+- Tag: Name = StudentName-Ex1-EC2-Instance
 
 # Task 1B (directly modify your answer in 1A)
 
