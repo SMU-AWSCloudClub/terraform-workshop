@@ -2,10 +2,12 @@ name: "terraform remote backend"
 on:
   push:
     branches:
-      - main
+        - main
     paths:
-      - "section3/answer3/**"
+        - 'section3/**'
   pull_request:
+    paths:
+        - 'section3/**'
 permissions:
   id-token: write # This is required for aws oidc connection
   contents: read # This is required for actions/checkout
@@ -19,7 +21,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./section3/answer3
+        working-directory: ./section3/answer3 # temporarily pointing to answer3
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
@@ -27,9 +29,9 @@ jobs:
       - name: Configure AWS credentials from AWS account
         uses: aws-actions/configure-aws-credentials@v4
         with:
+          role-to-assume: ${{ secrets.AWS_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-session-name: GitHub-OIDC-TERRAFORM
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -44,7 +46,6 @@ jobs:
         env:
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           AWS_BUCKET_KEY_NAME: ${{ secrets.AWS_BUCKET_KEY_NAME }}
-          AWS_DYNAMODB_TABLE: ${{ secrets.AWS_DYNAMODB_TABLE }}
         run: |
           terraform init \
             -backend-config="bucket=${AWS_BUCKET_NAME}" \
