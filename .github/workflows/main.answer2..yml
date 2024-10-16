@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "section2/terraform/**"
+      - "section3/answer3/**"
   pull_request:
 permissions:
   id-token: write # This is required for aws oidc connection
@@ -19,7 +19,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./section2/terraform
+        working-directory: ./section3/answer3
     steps:
       - name: Git checkout
         uses: actions/checkout@v4
