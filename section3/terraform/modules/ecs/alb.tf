@@ -35,7 +35,7 @@ resource "aws_alb_target_group" "nestjs_app" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = 3
-    path                = var.health_check_path
+    path                = "nestjs/${var.health_check_path}"
     unhealthy_threshold = 2
   }
 }
@@ -53,7 +53,7 @@ resource "aws_alb_target_group" "springboot_app" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = 3
-    path                = var.health_check_path
+    path                = "springboot/${var.health_check_path}"
     unhealthy_threshold = 2
   }
 }
