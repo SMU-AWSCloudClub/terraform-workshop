@@ -47,4 +47,4 @@ jobs:
             -backend-config="dynamodb_table=${AWS_DYNAMODB_TABLE}"
 
       - name: Terraform Destroy
-        run: TF_LOG=DEBUG terraform destroy -auto-approve "student_id=${TF_VAR_STUDENT_ID}"
+        run: TF_LOG=DEBUG terraform destroy -auto-approve -var "student_id=${TF_VAR_STUDENT_ID}"
