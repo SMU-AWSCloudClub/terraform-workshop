@@ -22,7 +22,7 @@ resource "aws_ecs_service" "nestjs_main" {
     container_port   = var.app_port
   }
 
-  depends_on = [aws_alb_listener.nestjs_front_end, aws_iam_role_policy_attachment.task_execution_role_policy_attachment]
+  depends_on = [aws_alb_listener.alb_main_listener, aws_iam_role_policy_attachment.task_execution_role_policy_attachment]
 }
 
 resource "aws_ecs_task_definition" "nestjs_app" {
@@ -43,7 +43,7 @@ resource "aws_ecs_task_definition" "nestjs_app" {
     # The following variables are used to pass environment variables to the container
     aws_region        = var.aws_region
     log_group         = aws_cloudwatch_log_group.nestjs_log_group.name
-    student_id    = var.student_id
+    student_id        = var.student_id
     DATABASE_HOST     = var.nestjs_db_endpoint
     DATABASE_PORT     = 3306
     DATABASE_NAME     = var.database_name
@@ -78,7 +78,7 @@ resource "aws_ecs_service" "springboot_main" {
     container_port   = var.app_port
   }
 
-  depends_on = [aws_alb_listener.springboot_front_end, aws_iam_role_policy_attachment.task_execution_role_policy_attachment]
+  depends_on = [aws_alb_listener.alb_main_listener, aws_iam_role_policy_attachment.task_execution_role_policy_attachment]
 }
 
 resource "aws_ecs_task_definition" "springboot_app" {
@@ -99,7 +99,7 @@ resource "aws_ecs_task_definition" "springboot_app" {
     # The following variables are used to pass environment variables to the container
     aws_region        = var.aws_region
     log_group         = aws_cloudwatch_log_group.springboot_log_group.name
-    student_id    = var.student_id
+    student_id        = var.student_id
     DATABASE_HOST     = var.springboot_db_endpoint
     DATABASE_PORT     = 3306
     DATABASE_NAME     = var.database_name

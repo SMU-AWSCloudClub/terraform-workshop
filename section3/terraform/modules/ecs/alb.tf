@@ -1,9 +1,23 @@
-resource "aws_alb" "nestjs_main" {
-  name            = "${var.student_id}-nestjs-lb"
+# Main Load Balancer
+resource "aws_alb" "microservices_main" {
+  name            = "${var.student_id}-lb"
   subnets         = var.public_subnet_ids
   security_groups = var.lb_sg_ids
 }
 
+# This tells the load balancer to listen on a specific port and forward traffic to a target group
+resource "aws_alb_listener" "alb_main_listener" {
+  load_balancer_arn = aws_alb.microservices_main.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = aws_alb_target_group.nestjs_app.id
+    type             = "forward"
+  }
+}
+
+# This is the target group that the load balancer will forward traffic to
 resource "aws_alb_target_group" "nestjs_app" {
   name        = "${var.student_id}-nestjs-tg"
   port        = 80
@@ -17,27 +31,9 @@ resource "aws_alb_target_group" "nestjs_app" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = 3
-    path                = var.health_check_path
+    path                = "nestjs/${var.health_check_path}"
     unhealthy_threshold = 2
   }
-}
-
-# Redirect all traffic from the ALB to the target group
-resource "aws_alb_listener" "nestjs_front_end" {
-  load_balancer_arn = aws_alb.nestjs_main.id
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    target_group_arn = aws_alb_target_group.nestjs_app.id
-    type             = "forward"
-  }
-}
-
-resource "aws_alb" "springboot_main" {
-  name            = "${var.student_id}-springboot-lb"
-  subnets         = var.public_subnet_ids
-  security_groups = var.lb_sg_ids
 }
 
 resource "aws_alb_target_group" "springboot_app" {
@@ -53,19 +49,43 @@ resource "aws_alb_target_group" "springboot_app" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = 3
-    path                = var.health_check_path
+    path                = "springboot/${var.health_check_path}"
     unhealthy_threshold = 2
   }
 }
 
-# Redirect all traffic from the ALB to the target group
-resource "aws_alb_listener" "springboot_front_end" {
-  load_balancer_arn = aws_alb.springboot_main.id
-  port              = 80
-  protocol          = "HTTP"
+# This is rules that specify the routing logic for the load balancer.
+# This routes all traffic with the path "/nestjs/*" to the nestjs target group
+# ref: https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule
+resource "aws_lb_listener_rule" "nestjs_forward" {
+  listener_arn = aws_alb_listener.alb_main_listener.arn
 
-  default_action {
-    target_group_arn = aws_alb_target_group.springboot_app.id
+  action {
     type             = "forward"
+    target_group_arn = aws_alb_target_group.nestjs_app.arn
   }
+
+  condition {
+    path_pattern {
+      values = ["/nestjs/*"]
+    }
+  }
+
+}
+
+# This routes all traffic with the path "/springboot/*" to the springboot target group
+resource "aws_lb_listener_rule" "springboot_forward" {
+  listener_arn = aws_alb_listener.alb_main_listener.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.springboot_app.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/springboot/*"]
+    }
+  }
+
 }
