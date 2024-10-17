@@ -12,8 +12,12 @@ resource "aws_alb_listener" "alb_main_listener" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.nestjs_app.id
-    type             = "forward"
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "404: Not Found"
+      status_code  = "404"
+    }
   }
 }
 
