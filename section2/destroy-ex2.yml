@@ -11,6 +11,7 @@ permissions:
 env:
   TF_LOG: INFO
   AWS_REGION: ${{ secrets.AWS_REGION }}
+  TF_VAR_STUDENT_ID: ${{ secrets.STUDENT_ID }} # by specifying 
 
 jobs:
   undeploy:
@@ -18,17 +19,17 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./section3/answer3 # temporarily pointing to answer3
+        working-directory: ./section3/terraform
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
 
       - name: Configure AWS credentials from AWS account
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-          role-session-name: GitHub-OIDC-TERRAFORM
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3

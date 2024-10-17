@@ -24,8 +24,9 @@ variable "tf_workshop_ex3_db_password" {
   default     = "TerraformRocksPa33W0rd!"
 }
 
+# This value is taken from the pipeline environment variables
 variable "student_id" {
   type        = string
   description = "Student ID"
-  default     = "student-420"
 }
+

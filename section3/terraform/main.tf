@@ -38,6 +38,3 @@ module "ecs" {
   database_username = var.tf_workshop_ex3_database_username
   database_password = var.tf_workshop_ex3_db_password
 }
-
-
-# hello
